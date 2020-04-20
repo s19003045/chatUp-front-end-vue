@@ -14,6 +14,11 @@ const router = new Router({
       component: Namespaces //component為單數，為 vue-router 的用法
     },
     {
+      path: '/namespace/:namespaceId',
+      name: 'namespace',
+      component: () => import('./views/Namespace.vue')
+    },
+    {
       path: '*',
       name: 'not-found',
       component: NotFound //component為單數
