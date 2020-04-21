@@ -12,9 +12,9 @@
 import ChatroomSidebar from "../components/ChatroomSidebar";
 import ChattingArea from "../components/ChattingArea";
 // 載入 apis
-import chatApis from "../../apis/chat";
+import chatAPI from "../apis/chat";
 // 載入 utils
-import { Toast } from "../../utils/helpers";
+import { Toast } from "../utils/helpers";
 
 export default {
   components: {
@@ -33,7 +33,7 @@ export default {
   methods: {
     async fetchNamespace(namespaceId) {
       try {
-        const { data, statusText } = await chatApis.getNamespace(namespaceId);
+        const { data, statusText } = await chatAPI.getNamespace(namespaceId);
         this.roomData = data.roomData;
         this.nspData = data.nspData;
 

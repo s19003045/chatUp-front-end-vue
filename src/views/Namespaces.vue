@@ -10,9 +10,9 @@
 import PublicNamespaces from "../components/PublicNamespaces";
 import PrivateNamespaces from "../components/PrivateNamespaces";
 // 載入 apis
-import chatApis from "../../apis/chat";
+import chatAPI from "../apis/chat";
 // 載入 utils
-import { Toast } from "../../utils/helpers";
+import { Toast } from "../utils/helpers";
 
 export default {
   components: {
@@ -31,7 +31,7 @@ export default {
   methods: {
     async fetchNamespaces() {
       try {
-        const { data, statusText } = await chatApis.indexPage();
+        const { data, statusText } = await chatAPI.indexPage();
 
         this.publicNamespaces = data.publicNsps;
         this.privateNamespaces = data.privateNsps;
