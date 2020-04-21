@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font: 13px Helvetica, Arial;
+}
+
+form.message-send {
+  background: #555;
+  padding: 3px;
+}
+
+form input {
+  border: 0;
+  padding: 10px;
+  width: 80%;
+  margin-right: .5%;
+}
+
+form button {
+  width: 19%;
+  background: rgb(130, 224, 255);
+  border: none;
+  padding: 8px;
+}
+
+/* messages list */
+.list-group-item {
+  border-radius: 20px;
+}
+
+.list-group-item:first-child {
+  border-radius: 20px;
+}
+
+.list-group-item:last-child {
+  border-radius: 20px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+
+/* css for modal */
