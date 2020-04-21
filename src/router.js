@@ -14,6 +14,11 @@ const router = new Router({
       component: Namespaces //component為單數，為 vue-router 的用法
     },
     {
+      path: '/signin',
+      name: 'sing-in',
+      component: () => import('./views/SignIn.vue')
+    },
+    {
       path: '/namespace/:namespaceId',
       name: 'namespace',
       component: () => import('./views/Namespace.vue')
