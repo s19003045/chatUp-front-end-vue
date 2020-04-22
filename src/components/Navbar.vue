@@ -1,44 +1,49 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Chat up</a>
+    <router-link class="navbar-brand" :to="{name:'root'}">Chat up</router-link>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav ml-auto mt-2 mt-lg-0 mr-3">
         <li
-          v-if="user"
+          v-if="currentUser"
           class="nav-item active navbar-username"
-          :data-useruuid="user.uuid"
-          :data-name="user.name"
+          :data-useruuid="currentUser.uuid"
+          :data-name="currentUser.name"
         >
           Hi!
-          <span class="ml-2">{{user.name}}</span>
+          <span class="ml-2">{{currentUser.name}}</span>
         </li>
       </ul>
-      <a v-if="user" class="btn btn-outline-info btn-sm" href="/logout" id="logout">登出</a>
-      <a v-else class="btn btn-outline-info btn-sm" href="/signin" id="login">登入</a>
+      <button
+        v-if="isAuthenticated"
+        class="btn btn-outline-info btn-sm"
+        @click="logout"
+        id="logout"
+      >登出</button>
+      <router-link v-else class="btn btn-outline-info btn-sm" :to="{name:'sing-in'}" id="login">登入</router-link>
     </div>
   </nav>
 </template>
 
 <script>
-const fakerUser = {
-  name: "John",
-  uuid: "12345678",
-  email: "user1@example.com"
-};
+// import store
+import { mapState } from "vuex";
+
+// import utils
+import { Toast } from "../utils/helpers";
 
 export default {
-  name: "Navbar",
-  data() {
-    return {
-      user: {}
-    };
-  },
-  created() {
-    this.fetchUser();
-  },
+  name: "NavbarVue",
+  // 當 state sub tree name 與 compouted property 一樣時，可以如下使用：(必須先載入 mapState)
+  computed: mapState(["currentUser", "isAuthenticated"]),
+  // computed: {
+  //   currentUser: function() {
+  //     return this.$store.state.currentUser;
+  //   },
+  //   isAuthenticated: function() {
+  //     return this.$store.state.isAuthenticated;
+  //   }
+  // },
   methods: {
-    fetchUser() {
-      this.user = fakerUser;
     }
   }
 };
