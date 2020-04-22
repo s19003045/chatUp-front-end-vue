@@ -28,6 +28,13 @@ export default new Vuex.Store({
       // 將 token 放進 state
       state.token = localStorage.getItem('token')
     },
+    // 使用時機：登入時驗證不通過時或登出時
+    revokeAuthentication(state) {
+      state.currentUser = {}
+      state.isAuthenticated = false
+      state.token = ''
+      localStorage.removeItem('token')
+    }
   },
   actions: {
   },

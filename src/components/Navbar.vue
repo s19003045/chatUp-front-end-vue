@@ -44,6 +44,18 @@ export default {
   //   }
   // },
   methods: {
+    logout() {
+      // 向 API 請求 logout，暫時不需要
+      // ---------
+      // 清除 store.state 中使用者資料及清除 local storage 的 token
+      this.$store.commit("revokeAuthentication");
+
+      Toast.fire({
+        icon: "success",
+        title: "你已成功登出"
+      });
+      // 成功登出後轉址到登入頁
+      this.$router.push("/signin");
     }
   }
 };
