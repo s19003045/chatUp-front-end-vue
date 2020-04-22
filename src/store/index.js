@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import usersAPI from '../apis/users'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -8,13 +9,12 @@ export default new Vuex.Store({
       id: -1,
       name: '',
       email: '',
-      image: '',
-      isAdmin: false
+      uuid: ''
     },
     isAuthenticated: false,
     token: ''
   },
-  mutations: {
+  mutations: { // 僅限 synchronous function
     // 使用時機：登入時
     // 第一個參數為 state, 第二個參數為 payload
     setCurrentUser(state, currentUser) {
@@ -36,7 +36,31 @@ export default new Vuex.Store({
       localStorage.removeItem('token')
     }
   },
-  actions: {
+  actions: { // 可建立 asynchronous function
+    async fetchCurrentUser({ commit }) {
+      try {
+        const { data, statusText } = await usersAPI.getCurrentUser()
+        console.log('data:', data)
+        console.log('statusText:', statusText)
+        if (statusText !== 'OK') {
+          throw new Error(statusText)
+        }
+
+        // commit a mutation
+        commit('setCurrentUser', {
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          uuid: data.uuid
+        })
+        return true
+      } catch (error) {
+        console.error('can not fetch user information')
+        // 驗證失敗的話一併觸發登出的行為，以清除 state 中的 token
+        commit('revokeAuthentication')
+        return false
+      }
+    }
   },
   modules: {
   }
