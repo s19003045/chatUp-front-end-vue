@@ -27,22 +27,15 @@
 <script>
 // import store
 import { mapState } from "vuex";
-
 // import utils
 import { Toast } from "../utils/helpers";
 
 export default {
   name: "NavbarVue",
   // 當 state sub tree name 與 compouted property 一樣時，可以如下使用：(必須先載入 mapState)
-  computed: mapState(["currentUser", "isAuthenticated"]),
-  // computed: {
-  //   currentUser: function() {
-  //     return this.$store.state.currentUser;
-  //   },
-  //   isAuthenticated: function() {
-  //     return this.$store.state.isAuthenticated;
-  //   }
-  // },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"])
+  },
   methods: {
     logout() {
       // 向 API 請求 logout，暫時不需要
