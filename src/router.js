@@ -22,7 +22,19 @@ const router = new Router({
     {
       path: '/namespace/:namespaceId',
       name: 'namespace',
-      component: () => import('./views/Namespace.vue')
+      component: () => import('./views/Namespace.vue'),
+      children: [
+        {
+          path: '',
+          name: 'namespaceHome',
+          component: () => import('./components/NamespaceHome.vue')
+        },
+        {
+          path: 'chatroom/:roomuuid',
+          name: 'chatroom',
+          component: () => import('./components/ChattingArea.vue')
+        }
+      ]
     },
     {
       path: '*',

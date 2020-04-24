@@ -5,7 +5,7 @@
     <router-link
       v-for="(room, index) in roomData"
       :key="index"
-      :to="{name:chatroom,params:{roomuuid:room.uuid}}"
+      :to="{name:'chatroom',params:{roomuuid:room.uuid}}"
       class="btn btn-outline-info btn-block my-2"
       :data-uuid="room.uuid"
     >

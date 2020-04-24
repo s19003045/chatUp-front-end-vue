@@ -2,7 +2,9 @@
   <div class="container mb-5">
     <div class="row mt-2">
       <ChatroomSidebar :room-data="roomData" :nsp-data="nspData" />
-      <ChattingArea />
+
+      <!-- 根據 進入namespace頁面 或 聊天室頁面載入不同 router-view-->
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -10,7 +12,7 @@
 <script>
 // 載入 components
 import ChatroomSidebar from "../components/ChatroomSidebar";
-import ChattingArea from "../components/ChattingArea";
+
 // 載入 apis
 import chatAPI from "../apis/chat";
 // 載入 utils
@@ -18,8 +20,7 @@ import { Toast } from "../utils/helpers";
 
 export default {
   components: {
-    ChatroomSidebar,
-    ChattingArea
+    ChatroomSidebar
   },
   data() {
     return {
