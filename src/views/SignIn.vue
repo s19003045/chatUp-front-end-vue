@@ -96,7 +96,7 @@ export default {
           });
         }
         // 成功登入後轉址到首頁
-        this.$router.push("/");
+        this.$router.push({ name: "namespaces" });
       } catch (err) {
         if (err) console.log(err);
         this.isProcessing = false;

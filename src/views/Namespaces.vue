@@ -13,6 +13,8 @@ import PrivateNamespaces from "../components/PrivateNamespaces";
 import chatAPI from "../apis/chat";
 // 載入 utils
 import { Toast } from "../utils/helpers";
+// import store
+import store from "../store";
 
 export default {
   components: {
@@ -28,6 +30,19 @@ export default {
   created() {
     this.fetchNamespaces();
   },
+  beforeRouteEnter(to, from, next) {
+    // 在此，必須使用 store.state 取得 isAuthenticated，無法使用 this.$store
+    let isAuthenticated = store.state.isAuthenticated;
+
+    // 連結首頁前，若來自 signin 頁面且通過驗證，則顯示歡迎訊息
+    if (isAuthenticated && from.name === "sign-in") {
+      Toast.fire({
+        icon: "success",
+        title: "Welcome to chat app !"
+      });
+    }
+    next();
+  },
   methods: {
     async fetchNamespaces() {
       try {
@@ -35,13 +50,7 @@ export default {
 
         this.publicNamespaces = data.publicNsps;
         this.privateNamespaces = data.privateNsps;
-
-        if (statusText === "OK") {
-          Toast.fire({
-            icon: "success",
-            title: "Welcome to chat app !"
-          });
-        }
+        console.log("statusText:", statusText);
       } catch (err) {
         if (err) console.log(err);
         Toast.fire({
