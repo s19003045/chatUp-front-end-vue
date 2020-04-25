@@ -6,5 +6,14 @@ export default {
       email,
       password
     })
+  },
+  /**
+   * data:
+   * {name, email, password, passwordCheck }
+   * */
+  signUp: (data) => {
+    return apiHelper.post('/signup', {
+      ...data
+    })
   }
 }

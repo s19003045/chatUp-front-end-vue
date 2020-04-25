@@ -26,6 +26,11 @@ const router = new Router({
       component: () => import('./views/SignIn.vue')
     },
     {
+      path: '/signup',
+      name: 'sign-up',
+      component: () => import('./views/SignUp.vue')
+    },
+    {
       path: '/namespace/:namespaceId',
       name: 'namespace',
       component: () => import('./views/Namespace.vue'),
