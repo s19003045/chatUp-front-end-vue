@@ -1,6 +1,7 @@
 <template>
   <div class="col col-12 col-lg-8 mx-auto mb-3">
     <h3 class="my-2">Private Namespace</h3>
+    <h5 v-if="privateNamespaces.length === 0" class="mt-4 ml-2">There is no namespaces</h5>
     <div v-for="(privateNamespace,index) in privateNamespaces" :key="index">
       <router-link
         :to="{name:'namespace',params:{namespaceId:privateNamespace.uuid}}"
