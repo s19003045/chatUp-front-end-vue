@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Namespaces from './views/Namespaces.vue'
-import NotFound from './views/NotFound.vue'
-import store from './store'
-import { Toast } from './utils/helpers'
+import Namespaces from '../views/Namespaces.vue'
+import NotFound from '../views/NotFound.vue'
+import store from '../store'
+import { Toast } from '../utils/helpers'
 
 Vue.use(Router)
 
@@ -23,27 +23,27 @@ const router = new Router({
     {
       path: '/signin',
       name: 'sign-in',
-      component: () => import('./views/SignIn.vue')
+      component: () => import('../views/SignIn.vue')
     },
     {
       path: '/signup',
       name: 'sign-up',
-      component: () => import('./views/SignUp.vue')
+      component: () => import('../views/SignUp.vue')
     },
     {
       path: '/namespace/:namespaceId',
       name: 'namespace',
-      component: () => import('./views/Namespace.vue'),
+      component: () => import('../views/Namespace.vue'),
       children: [
         {
           path: '',
           name: 'namespaceHome',
-          component: () => import('./components/NamespaceHome.vue')
+          component: () => import('../components/NamespaceHome.vue')
         },
         {
           path: 'chatroom/:roomuuid',
           name: 'chatroom',
-          component: () => import('./components/ChattingArea.vue')
+          component: () => import('../components/ChattingArea.vue')
         }
       ]
     },
