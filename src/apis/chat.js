@@ -1,15 +1,13 @@
 import { apiHelper } from '../utils/helpers'
-const getToken = () => localStorage.getItem('token')
 
 export default {
   indexPage: () => {
-    return apiHelper.get('/', {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    })
+    return apiHelper.get('/')
   },
   getNamespace: (namespaceId) => {
-    return apiHelper.get(`/namespace/${namespaceId}`, {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    })
+    return apiHelper.get(`/namespace/${namespaceId}`)
   },
+  chatroom: (chatroomuuid) => {
+    apiHelper.get(`/chatroom/${chatroomuuid}`)
+  }
 }
