@@ -12,7 +12,10 @@ export default new Vuex.Store({
       uuid: ''
     },
     isAuthenticated: false,
-    token: ''
+    token: '',
+    currentRoom: {
+      roomuuid: ''
+    }
   },
   mutations: { // 僅限 synchronous function
     // 使用時機：登入時
@@ -34,6 +37,13 @@ export default new Vuex.Store({
       state.isAuthenticated = false
       state.token = ''
       localStorage.removeItem('token')
+    },
+    // 使用時機：進入聊天室時
+    setCurrentRoom(state, currentRoom) {
+      state.currentRoom = {
+        ...state.currentRoom,
+        ...currentRoom
+      }
     }
   },
   actions: { // 可建立 asynchronous function

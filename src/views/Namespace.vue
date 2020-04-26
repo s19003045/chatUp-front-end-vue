@@ -20,6 +20,10 @@ import Spinner from "../components/Spinner.vue";
 import chatAPI from "../apis/chat";
 // 載入 utils
 import { Toast } from "../utils/helpers";
+// 載入 socket
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3000");
 
 export default {
   components: {
@@ -35,6 +39,7 @@ export default {
   },
   created() {
     this.fetchNamespace(this.$route.params.namespaceId);
+    this.connectSocket();
   },
   methods: {
     async fetchNamespace(namespaceId) {
@@ -61,6 +66,12 @@ export default {
           title: "無法順利取得資料，請稍後再試 !"
         });
       }
+    },
+    connectSocket() {
+      // 事件：連結
+      socket.on("connect", function() {
+        console.log("websocket connected");
+      });
     }
   }
 };

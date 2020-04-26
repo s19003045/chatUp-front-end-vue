@@ -17,8 +17,13 @@
       <!-- li elements here -->
     </ul>
     <!-- user input here -->
-    <form action class="fixed-bottom message-send">
-      <input id="message-input" autocomplete="off" placeholder="type something ........" />
+    <form action class="fixed-bottom message-send" @submit.prevent.stop="handleSubmit">
+      <input
+        id="message-input"
+        v-model="message"
+        autocomplete="off"
+        placeholder="type something ........"
+      />
       <button class="btn btn-success">Send</button>
     </form>
 
@@ -66,7 +71,40 @@
 </template>
 
 <script>
+// 載入 socket
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3000");
+
 export default {
-  props: {}
+  data() {
+    return {
+      message: ""
+    };
+  },
+  props: {},
+  created() {
+    this.connectSocket();
+  },
+  methods: {
+    connectSocket() {
+      // 事件：連結
+      socket.on("connect", function() {
+        console.log("websocket connected");
+      });
+    },
+    handleSubmit() {
+      const data = {
+        username: this.$store.state.currentUser.name,
+        message: this.message,
+        email: this.$store.state.currentUser.email,
+        roomuuid: this.$store.state.currentRoom.roomuuid
+      };
+      // socket.emit;
+      socket.emit("client chat", data);
+      // clear input
+      this.message = "";
+    }
+  }
 };
 </script>

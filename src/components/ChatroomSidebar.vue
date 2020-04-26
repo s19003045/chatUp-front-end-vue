@@ -9,6 +9,7 @@
         :to="{name:'chatroom',params:{roomuuid:room.uuid}}"
         class="btn btn-outline-info btn-block my-2"
         :data-uuid="room.uuid"
+        @click.native.prevent="handleLink(room.uuid)"
       >
         {{room.name}}
         ( {{room.usersCount}} )
@@ -30,6 +31,15 @@ export default {
     nspData: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    handleLink(roomuuid) {
+      const currentRoom = {
+        roomuuid: roomuuid
+      };
+
+      this.$store.commit("setCurrentRoom", currentRoom);
     }
   }
 };
