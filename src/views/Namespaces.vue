@@ -1,7 +1,12 @@
 <template>
-  <div class="row">
-    <PublicNamespaces :public-namespaces="publicNamespaces" />
-    <PrivateNamespaces :private-namespaces="privateNamespaces" />
+  <div class="container">
+    <div class="row">
+      <Spinner v-if="isLoading"></Spinner>
+      <template v-else>
+        <PublicNamespaces :public-namespaces="publicNamespaces" />
+        <PrivateNamespaces :private-namespaces="privateNamespaces" />
+      </template>
+    </div>
   </div>
 </template>
 
@@ -9,6 +14,7 @@
 // 載入 components
 import PublicNamespaces from "../components/PublicNamespaces";
 import PrivateNamespaces from "../components/PrivateNamespaces";
+import Spinner from "../components/Spinner.vue";
 // 載入 apis
 import chatAPI from "../apis/chat";
 // 載入 utils
@@ -19,12 +25,14 @@ import store from "../store";
 export default {
   components: {
     PublicNamespaces,
-    PrivateNamespaces
+    PrivateNamespaces,
+    Spinner
   },
   data() {
     return {
       publicNamespaces: [],
-      privateNamespaces: []
+      privateNamespaces: [],
+      isLoading: true
     };
   },
   created() {
@@ -46,13 +54,17 @@ export default {
   methods: {
     async fetchNamespaces() {
       try {
-        const { data, statusText } = await chatAPI.indexPage();
+        const { data } = await chatAPI.indexPage();
 
         this.publicNamespaces = data.publicNsps;
         this.privateNamespaces = data.privateNsps;
-        console.log("statusText:", statusText);
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 500);
       } catch (err) {
         if (err) console.log(err);
+        this.isLoading = false;
+
         Toast.fire({
           icon: "error",
           title: "無法順利取得資料，請稍後再試 !"
