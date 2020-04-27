@@ -50,18 +50,17 @@ export default new Vuex.Store({
     async fetchCurrentUser({ commit }) {
       try {
         const { data, statusText } = await usersAPI.getCurrentUser()
-        console.log('data:', data)
-        console.log('statusText:', statusText)
+
         if (statusText !== 'OK') {
           throw new Error(statusText)
         }
 
         // commit a mutation
         commit('setCurrentUser', {
-          id: data.id,
-          name: data.name,
-          email: data.email,
-          uuid: data.uuid
+          id: data.currentUser.id,
+          name: data.currentUser.name,
+          email: data.currentUser.email,
+          uuid: data.currentUser.uuid
         })
         return true
       } catch (error) {
@@ -70,7 +69,7 @@ export default new Vuex.Store({
         commit('revokeAuthentication')
         return false
       }
-    }
+    },
   },
   modules: {
   }
