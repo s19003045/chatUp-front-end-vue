@@ -9,12 +9,13 @@
     >Type your name</button>
     <div class="userCountOnline my-3">
       目前在線人數：
-      <span class></span>
+      <span class>{{userCountOnline}}</span>
     </div>
 
     <!-- chat message list here -->
     <ul id="messages" class="list-group py-0">
       <!-- li elements here -->
+      <template v-if="roomMessages">{{roomMessages}}</template>
     </ul>
     <!-- user input here -->
     <form action class="fixed-bottom message-send" @submit.prevent.stop="handleSubmit">
@@ -71,6 +72,8 @@
 </template>
 
 <script>
+// 載入 store
+import store from "../store";
 // 載入 socket
 import io from "socket.io-client";
 
@@ -79,7 +82,9 @@ const socket = io("http://localhost:3000");
 export default {
   data() {
     return {
-      message: ""
+      message: "",
+      userCountOnline: 0,
+      roomMessages: [],
     };
   },
   props: {},
@@ -88,9 +93,34 @@ export default {
   },
   methods: {
     connectSocket() {
+      // _this 指 component
+      const _this = this;
       // 事件：連結
       socket.on("connect", function() {
         console.log("websocket connected");
+      });
+
+      // 事件：顯示在線人數
+      socket.on("users online", function(data) {
+        // 顯示在線人數
+        _this.userCountOnline = data.userCountOnline;
+      });
+
+      // socket emit：傳送 roomuuid 及 useruuid
+      socket.emit("into room", {
+        roomuuid: store.state.currentRoom.roomuuid,
+        useruuid: store.state.currentUser.useruuid
+      });
+
+      // 進入聊天室後，接收該聊天室所有的訊息，顯示近10筆訊息
+      socket.on("room messages", function(data) {
+        console.log("data:", data);
+        _this.roomMessages = data.data.messages;
+      });
+
+      // 事件：斷連結
+      socket.on("disconnect", function() {
+        console.log("websocket disconnected");
       });
     },
     handleSubmit() {
