@@ -17,28 +17,54 @@ export default new Vuex.Store({
       roomuuid: ''
     }
   },
-  mutations: { // 僅限 synchronous function
-    // 使用時機：登入時
-    // 第一個參數為 state, 第二個參數為 payload
+
+  /** 
+   * mutations can change the state in store
+   *
+   * limited to synchronous function
+   */
+  mutations: {
+    /**
+     * Commit to set current user info in state
+     * 
+     * When to use: login successifully
+     * 
+     * @param {Object} state The state of store
+     * @param {Object} currentUser User's data got from API 
+     */
     setCurrentUser(state, currentUser) {
       state.currentUser = {
         ...state.currentUser,
-        // 將 API 取得的 currentUser 覆蓋掉 Vuex state 中的 currentUser
         ...currentUser
       }
-      // 將使用者的登入狀態改為 true
+      // Set isAuthenticated in state
       state.isAuthenticated = true
-      // 將 token 放進 state
+      // Set token in state
       state.token = localStorage.getItem('token')
     },
-    // 使用時機：登入時驗證不通過時或登出時
+
+    /**
+     * Commit to clear current user info in state
+     *
+     * When to use：authentication failed or logout
+     *
+     * @param {Object} state The state of store
+     */
     revokeAuthentication(state) {
       state.currentUser = {}
       state.isAuthenticated = false
       state.token = ''
       localStorage.removeItem('token')
     },
-    // 使用時機：進入聊天室時
+
+    /**
+     * Commit to set current chatroom info in state
+     *
+     * When to use：Into the chatroom
+     *
+     * @param {Object} state The state of store
+     * @param {Object} currentRoom Current room data got from API 
+     */
     setCurrentRoom(state, currentRoom) {
       state.currentRoom = {
         ...state.currentRoom,
@@ -46,7 +72,20 @@ export default new Vuex.Store({
       }
     }
   },
-  actions: { // 可建立 asynchronous function
+
+  /**
+   * actions can commit mutations in store
+   *
+   * both for synchronous function and asynchronous function
+   */
+  actions: {
+    /**
+       * Connect to API for user data and then commit to set state
+       *
+       * When to use：Link to pages when user info is needed
+       *
+       * @param {Function} commit Function to commit mutation
+       */
     async fetchCurrentUser({ commit }) {
       try {
         const { data, statusText } = await usersAPI.getCurrentUser()
